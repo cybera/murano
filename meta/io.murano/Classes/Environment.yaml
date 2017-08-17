@@ -59,7 +59,7 @@ Properties:
           password: $.string().notNull()
           virtual_host: $.string() or '/'
           ssl: $.bool() or false
-          insecure: $.bool() or false
+          insecure: $.bool() or true
     Usage: Config
 
   region:

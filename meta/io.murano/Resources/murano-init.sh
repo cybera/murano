@@ -17,7 +17,7 @@ else
   # TODO(kzaitsev): use deb/rpm packages as soon as we can
   echo "installing murano agent from pip"
   echo "binary not found in PATH: $PATH"
-  pip install murano-agent
+  pip install murano-agent==3.2.0
 fi
 
 muranoAgentConf='%MURANO_AGENT_CONF%'
