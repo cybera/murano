@@ -88,16 +88,25 @@ Methods:
                 rules:
                   - protocol: icmp
                     remote_ip_prefix: '0.0.0.0/0'
+                  - protocol: icmp
+                    remote_ip_prefix: '::/0'
+                    ethertype: 'IPv6'
       - $._region.stack.updateTemplate($template)
 
-      - $rulesList: $rules.select(dict(
-            port_range_min => $.FromPort,
-            port_range_max => $.ToPort,
-            protocol => $.IpProtocol,
-            ethertype => $.get(Ethertype, IPv4),
-            $ext_keys.get($.External).ext_key => $ext_keys.get($.External).ext_val,
-            direction => $direction
-          ))
+      - $rulesList: $rules.select(
+          dict(
+              port_range_min => $.FromPort,
+              port_range_max => $.ToPort,
+              protocol => $.IpProtocol,
+              ethertype => $.get(Ethertype, IPv4),
+              direction => $direction
+            ).set($ext_keys.get($.External).ext_key, switch(
+                $.Ethertype = 'IPv4' and bool($.External) => '0.0.0.0/0',
+                $.Ethertype = 'IPv6' and bool($.External) => '::/0',
+                bool($.External) => '0.0.0.0/0',
+                true => 'remote_group_id'
+            ))
+          )
 
       - $template:
           resources:

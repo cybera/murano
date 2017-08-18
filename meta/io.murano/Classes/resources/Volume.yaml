@@ -41,7 +41,7 @@ Methods:
     - instance:
         Contract: $.class(Instance).notNull()
     - path:
-        Contract: $.string().notNull()
+        Contract: $.string()
     Body:
     - $.deploy()
     - $resourceName: format('vol-attachment-{0}-{1}', id($), $instance.name)
