@@ -30,5 +30,11 @@ Methods:
           IpProtocol: tcp
           FromPort: 22
           External: true
+      - $rules:
+        - ToPort: 22
+          IpProtocol: tcp
+          FromPort: 22
+          External: true
+          Ethertype: IPv6
       - $region.securityGroupManager.addGroupIngress(
           rules => $rules, groupName => $groupName)
